@@ -1,50 +1,57 @@
+const $arenas = document.querySelector('.arenas');
+
 const player1 = {
+	player: 1,
 	name: 'SCORPION',
 	hp: 100,
 	img: 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif',
 	weapon: ['sword', 'minigun', 'pillow'],
 	attack() {
-		console.log(this.name + ' Fight...');
+		console.log(name + ' ' + ' Fight...');
 	},
 };
 
 const player2 = {
+	player: 2,
 	name: 'SUB-ZERO',
 	hp: 100,
 	img: 'http://reactmarathon-api.herokuapp.com/assets/subzero.gif',
 	weapon: ['dagger', 'pistol', 'flowers'],
 	attack() {
-		console.log(this.name + ' Fight...');
+		console.log(name + ' ' + ' Fight...');
 	},
 };
 
-function createPlayer(player, name, health) {
-	const $arenas = document.querySelector('.arenas');
+function createElement(tag, className) {
+	const $tag = document.createElement(tag);
 
-	const $player = document.createElement('div');
-	const $progressbar = document.createElement('div');
-	const $life = document.createElement('div');
-	const $name = document.createElement('div');
-	const $character = document.createElement('div');
-	const $img = document.createElement('img');
+	if (className) {
+		$tag.classList.add(className);
+	}
 
-	$player.classList.add(`${player}`);
-	$progressbar.classList.add('progressbar');
-	$life.classList.add('life');
-	$life.style.width = health + '%';
-	$name.classList.add('name');
-	$character.classList.add('character');
-
-	$player.appendChild($progressbar);
-	$player.appendChild($character);
-	$progressbar.appendChild($life);
-	$progressbar.appendChild($name);
-	$character.appendChild($img);
-	$arenas.appendChild($player);
-
-	$img.src = 'http://reactmarathon-api.herokuapp.com/assets/scorpion.gif';
-	$name.innerText = name;
+	return $tag;
 }
 
-createPlayer('player1', 'SCORPION', 100);
-createPlayer('player2', 'SUB-ZERO', 100);
+function createPlayer(playerObj) {
+	const $player = createElement('div', 'player' + playerObj.player);
+	const $progressbar = createElement('div', 'progressbar');
+	const $character = createElement('div', 'character');
+	const $life = createElement('div', 'life');
+	const $name = createElement('div', 'name');
+	const $img = createElement('img');
+
+	$life.style.width = playerObj.hp + '%';
+	$name.innerText = playerObj.name;
+	$img.src = playerObj.img;
+
+	$progressbar.appendChild($name);
+	$progressbar.appendChild($life);
+	$character.appendChild($img);
+	$player.appendChild($progressbar);
+	$player.appendChild($character);
+
+	return $player;
+}
+
+$arenas.appendChild(createPlayer(player1));
+$arenas.appendChild(createPlayer(player2));
